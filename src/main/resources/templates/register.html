@@ -12,13 +12,189 @@
 </head>
 <body>
 <div class="container-fluid">
-    aaa
+    <div class="row" style="padding-top: 10%">
+        <div id="registerDiv" class="col-md-4 offset-md-4" style="border: 1px solid gainsboro;border-radius: 4px;padding: 20px 40px 20px 40px;">
+            <h5 style="width: auto">注册<a href="/SpringBootDemo/login" style="float: right;font-size: 13px;color: #17a2b8;margin-top: 1%;">已有账号，马上登录</a></h5>
+            <hr style="margin-top: 2px"/>
+            <form class="form">
+                <div class="form-group form-row">
+                    <label for="username" class="col-md-3 col-form-label">用户名：</label>
+                    <input type="text" v-bind:class="usernameClass" id="username" v-model="username" v-on:input="checkUsername">
+                    <div class="invalid-feedback" >
+                        用户名已存在
+                    </div>
+                </div>
+                <div class="form-group form-row">
+                    <label for="password" class="col-md-3 col-form-label" >密码：</label>
+                    <input type="password" v-bind:class="passwordClass" id="password" v-model="password" v-on:input="checkPassword">
+                    <div class="invalid-feedback" >
+                        {{ chkPassMsg }}
+                    </div>
+                </div>
+                <div class="form-group form-row">
+                    <label for="confirmPassword" class="col-md-4 col-form-label" >确认密码：</label>
+                    <input type="password" v-bind:class="confirmPasswordClass" id="confirmPassword" v-model="confirmPassword" v-on:input="checkConfirPassword">
+                    <div class="invalid-feedback" >
+                        两次输入密码不一致
+                    </div>
+                </div>
+            </form>
+            <button class="btn btn-info btn-block" id="register" v-on:click="register">立即注册</button>
+        </div>
+    </div>
 </div>
-
+<!-- 提醒模态框 -->
+<div class="modal fade bd-example-modal-sm" id="messageModal" tabindex="-1" role="dialog" aria-labelledby="messageModal" aria-hidden="true">
+    <div class="modal-dialog modal-sm" role="document">
+        <div class="modal-content">
+            <div class="modal-body">
+                <p>{{ message }}</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">确认</button>
+            </div>
+        </div>
+    </div>
+</div>
 <!-- Optional JavaScript -->
 <!-- jQuery first, then Popper.js, then Bootstrap JS -->
 <script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
 <script src="https://cdn.bootcss.com/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
 <script src="https://cdn.bootcss.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+<!-- vue -->
+<script src="https://cdn.bootcss.com/vue/2.5.21/vue.min.js"></script>
+<!-- axios -->
+<script src="https://cdn.bootcss.com/axios/0.18.0/axios.min.js"></script>
+<script>
+    var messageModal = new Vue({
+        el: "#messageModal",
+        data: {
+            message: null
+        },
+        methods: {
+            show: function (message) {
+                this.message = message;
+                $(this.$el).modal("show");
+            }
+        }
+    });
+    var registerDiv = new Vue({
+        el: "#registerDiv",
+        data: {
+            username: "",
+            password: "",
+            confirmPassword: "",
+            chkPassMsg: "",
+            usernameFlag: true,
+            passwordFlag: true,
+            confirmPasswordFlag: true,
+            usernameClass: {
+                "col-md-9": true,
+                "form-control": true,
+                "is-valid": false,
+                "is-invalid": false
+            },
+            passwordClass: {
+                "col-md-9": true,
+                "form-control": true,
+                "is-valid": false,
+                "is-invalid": false
+            },
+            confirmPasswordClass: {
+                "col-md-8": true,
+                "form-control": true,
+                "is-valid": false,
+                "is-invalid": false
+            }
+        },
+        methods: {
+            //校验用户名
+            checkUsername: function(){
+                if(this.username == ""){
+                    this.usernameClass["is-invalid"] = false;
+                    this.usernameClass["is-valid"] = false;
+                    this.usernameFlag = true;
+                }
+                else {
+                    var param = {username: this.username};
+                    var object = this;
+                    axios.post("/SpringBootDemo/checkUsername", param, {timeout: 60000})
+                        .then(function (response) {
+                            if (response.data.message == "repeat") {
+                                object.usernameClass["is-invalid"] = true;
+                                object.usernameClass["is-valid"] = false;
+                                object.usernameFlag = false;
+                            } else {
+                                object.usernameClass["is-valid"] = true;
+                                object.usernameClass["is-invalid"] = false;
+                                object.usernameFlag = true;
+                            }
+                        });
+                }
+            },
+            //校验密码
+            checkPassword: function(){
+                if(this.password == ""){
+                    this.passwordClass["is-invalid"] = false;
+                    this.passwordClass["is-valid"] = false;
+                    this.passwordFlag = true;
+                }
+                else{
+                    if(this.password.length < 6){
+                        this.chkPassMsg = "密码长度小于6位";
+                        this.passwordClass["is-invalid"] = true;
+                        this.passwordClass["is-valid"] = false;
+                        this.passwordFlag = false;
+                    }
+                    else{
+                        this.chkPassMsg = "";
+                        this.passwordClass["is-invalid"] = false;
+                        this.passwordClass["is-valid"] = true;
+                        this.passwordFlag = true;
+                    }
+                }
+                this.checkConfirPassword();
+            },
+            //校验两次输入密码
+            checkConfirPassword: function(){
+                if(this.confirmPassword == ""){
+                    this.confirmPasswordClass["is-invalid"] = false;
+                    this.confirmPasswordClass["is-valid"] = false;
+                    this.confirmPasswordFlag = true;
+                }
+                else{
+                    if(this.password != this.confirmPassword){
+                        this.confirmPasswordClass["is-invalid"] = true;
+                        this.confirmPasswordClass["is-valid"] = false;
+                        this.confirmPasswordFlag = false;
+                    }
+                    else{
+                        this.confirmPasswordClass["is-invalid"] = false;
+                        this.confirmPasswordClass["is-valid"] = true;
+                        this.confirmPasswordFlag = true;
+                    }
+                }
+            },
+            //注册
+            register: function () {
+                if(this.usernameFlag && this.passwordFlag && this.confirmPasswordFlag) {
+                    if (this.username == "" || this.password == "" || this.confirmPassword == "") {
+                        messageModal.show("用户名密码不能为空！");
+                    } else {
+                        //发送ajax请求
+                        var param = {username: this.username, password: this.password};
+                        axios.post("/SpringBootDemo/submitReg", param, {timeout: 60000})
+                            .then(function (response) {
+                                messageModal.show(response.data.message);
+                            });
+                    }
+                }
+                else{
+                    return;
+                }
+            }
+        }
+    });
+</script>
 </body>
 </html>
