@@ -185,7 +185,12 @@
                         var param = {username: this.username, password: this.password};
                         axios.post("/SpringBootDemo/submitReg", param, {timeout: 60000})
                             .then(function (response) {
-                                messageModal.show(response.data.message);
+                                if(response.data.message == "success"){
+                                    window.location.href = "/SpringBootDemo/registerSuccess";
+                                }
+                                else{
+                                    messageModal.show("系统异常，请稍候再试。");
+                                }
                             });
                     }
                 }

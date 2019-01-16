@@ -15,12 +15,7 @@ public class Register {
     public Message register(@RequestBody User user){
         Message response = new Message();
         String message = registerService.register(user.getUsername(),user.getPassword());
-        if(message.equals("success")){
-            response.setMessage("注册成功！");
-        }
-        else{
-            response.setMessage(message);
-        }
+        response.setMessage(message);
         return response;
     }
 }
