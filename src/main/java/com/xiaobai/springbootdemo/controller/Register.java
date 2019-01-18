@@ -12,7 +12,7 @@ public class Register {
     @Autowired
     RegisterService registerService;
     @RequestMapping(value = "/submitReg",method = RequestMethod.POST)
-    public Message register(@RequestBody User user){
+    public Message submitReg(@RequestBody User user){
         Message response = new Message();
         String message = registerService.register(user.getUsername(),user.getPassword());
         response.setMessage(message);

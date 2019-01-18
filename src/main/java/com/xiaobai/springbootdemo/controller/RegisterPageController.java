@@ -10,4 +10,8 @@ public class RegisterPageController {
     public String register(){
         return "register";
     }
+    @RequestMapping("/registerSuccess")
+    public String regesterSuccess(){
+        return "registerSuccess";
+    }
 }
