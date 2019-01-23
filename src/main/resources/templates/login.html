@@ -13,15 +13,15 @@
 <body>
 <div class="container-fluid">
     <div class="row" style="padding-top: 10%">
-        <div class="col-md-4 offset-md-4" style="border: 1px solid gainsboro;border-radius: 4px;padding: 20px 40px 20px 40px;">
+        <div class="col-md-4 offset-md-4" id="loginDiv" style="border: 1px solid gainsboro;border-radius: 4px;padding: 20px 40px 20px 40px;">
             <h5 style="width: auto">登录<a href="/SpringBootDemo/register" style="float: right;font-size: 13px;color: #17a2b8;margin-top: 1%;">立即注册</a></h5>
             <hr style="margin-top: 2px"/>
             <form>
                 <div class="form-group">
-                    <input type="text" class="form-control" id="username" placeholder="用户名">
+                    <input type="text" class="form-control" id="username" v-model="username" placeholder="用户名">
                 </div>
                 <div class="form-group">
-                    <input type="password" class="form-control" id="password" placeholder="密码">
+                    <input type="password" class="form-control" id="password" v-model="password" placeholder="密码">
                 </div>
                 <div class="form-check" style="margin-bottom: 5px;">
                     <input type="checkbox" class="form-check-input" id="loginOn">
@@ -29,15 +29,87 @@
                     <a href="#" style="float: right;font-size: 13px;color: #17a2b8;">忘记密码?</a>
                 </div>
             </form>
-            <button class="btn btn-info btn-block">登录</button>
+            <button class="btn btn-info btn-block" v-on:click="login">登录</button>
         </div>
     </div>
 </div>
-
+<!-- 提醒模态框 -->
+<div class="modal fade bd-example-modal-sm" id="messageModal" tabindex="-1" role="dialog" aria-labelledby="messageModal" aria-hidden="true">
+    <div class="modal-dialog modal-sm" role="document">
+        <div class="modal-content">
+            <div class="modal-body">
+                <p>{{ message }}</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">确认</button>
+            </div>
+        </div>
+    </div>
+</div>
 <!-- Optional JavaScript -->
 <!-- jQuery first, then Popper.js, then Bootstrap JS -->
 <script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
 <script src="https://cdn.bootcss.com/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
 <script src="https://cdn.bootcss.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+<!-- vue -->
+<script src="https://cdn.bootcss.com/vue/2.5.21/vue.min.js"></script>
+<!-- axios -->
+<script src="https://cdn.bootcss.com/axios/0.18.0/axios.min.js"></script>
+<!-- md5 -->
+<script src="https://cdn.bootcss.com/blueimp-md5/2.10.0/js/md5.js"></script>
+<!-- js-cookie -->
+<script src="https://cdn.bootcss.com/js-cookie/latest/js.cookie.min.js"></script>
+<script>
+    var messageModal = new Vue({
+        el: "#messageModal",
+        data: {
+            message: null
+        },
+        methods: {
+            show: function (message) {
+                this.message = message;
+                $(this.$el).modal("show");
+            }
+        }
+    });
+    var loginDiv = new Vue({
+        el: "#loginDiv",
+        data: {
+            username: "",
+            password: ""
+        },
+        methods: {
+            login: function () {
+                if(this.username == ""){
+                    messageModal.show("请输入用户名！");
+                }
+                else if(this.password == ""){
+                    messageModal.show("请输入密码！");
+                }
+                else{
+                    //密码md5加密
+                    var pwd = md5(this.password);
+                    //发送ajax请求
+                    var param = {username: this.username, password: pwd};
+                    axios.post("/SpringBootDemo/submit", param, {timeout: 60000})
+                        .then(function (response) {
+                            if(response.data.message == "success"){
+                                window.location.href = "/SpringBootDemo/home" + "?ID=" + Cookies.get("JSESSIONID");
+                            }
+                            else if(response.data.message == "password error"){
+                                messageModal.show("密码错误！");
+                            }
+                            else if(response.data.message == "user not exist"){
+                                messageModal.show("用户不存在！");
+                            }
+                            else{
+                                messageModal.show("系统异常，请稍候再试。");
+                            }
+                        });
+                }
+            }
+        }
+    });
+</script>
 </body>
 </html>

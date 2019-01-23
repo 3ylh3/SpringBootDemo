@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration scan="true" scanPeriod="60 seconds" debug="false">
+   <!-- 定义全局样式参数 -->
+   <property name="layout" value="%d{MM-DD HH:mm:ss.SSS} %-5level - %msg%n" />
+   <property name="log.base" value="logs/" />
+   <!-- 输出到控制台 -->
+   <appender name="Console" class="ch.qos.logback.core.ConsoleAppender">
+      <filter class="ch.qos.logback.classic.filter.LevelFilter">
+         <level>error</level>
+         <onMatch>ACCEPT</onMatch>
+         <onMismatch>DENY</onMismatch>
+      </filter>
+　　　 <encoder>
+　　　    <pattern>${layout}</pattern>
+　　　 </encoder>
+　　</appender>
+   <!-- 注册日志 -->
+   <appender name="Register" class="ch.qos.logback.core.rolling.RollingFileAppender">
+      <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+         <fileNamePattern>${log.base}/register_%d{yyyyMMdd}.log</fileNamePattern>
+      </rollingPolicy>
+      <!-- 日志输出的文件的格式 -->
+      <encoder>
+　　　　　 <pattern>${layout}</pattern>
+　　　　</encoder>
+　　</appender>
+   
+   <!-- 登录日志 -->
+   <appender name="Login" class="ch.qos.logback.core.rolling.RollingFileAppender">
+      <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+         <fileNamePattern>${log.base}/login_%d{yyyyMMdd}.log</fileNamePattern>
+      </rollingPolicy>
+      <!-- 日志输出的文件的格式 -->
+      <encoder>
+　　　　　 <pattern>${layout}</pattern>
+　　　　</encoder>
+　　</appender>
+   
+   <logger name="Register" level="info" addtivity="false">
+      <appender-ref ref="Console" />
+      <appender-ref ref="Register" />
+   </logger>
+   <logger name="Login" level="info" addtivity="false">
+      <appender-ref ref="Console" />
+      <appender-ref ref="Login" />
+   </logger>
+</configuration>

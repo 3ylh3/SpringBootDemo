@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/SpringBootDemo")
-public class CheckUsername {
+public class CheckUsernameController {
     @Autowired
     CheckUsernameService checkUsernameService;
     @RequestMapping("/checkUsername")
