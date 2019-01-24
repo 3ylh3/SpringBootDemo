@@ -21,6 +21,11 @@ spring:
       max-idle: 20
       #超时时间
       max-wait-millis: 60000
+  #thymeleaf
+  thymeleaf:
+    mode: HTML5
+    encoding: UTF-8
+    cache: false
 #Mybatis配置
 mybatis:
   #dao接口所在的包

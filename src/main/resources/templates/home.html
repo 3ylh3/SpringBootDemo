@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <!-- Required meta tags -->
     <meta charset="utf-8">
@@ -8,12 +8,14 @@
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 
-    <title>请登录</title>
+    <title>我的主页</title>
 </head>
+<header th:replace="public :: header"></header>
 <body>
-<div class="container-fluid">
-    aaaa
+<div class="container-fluid" style="padding-top: 56px">
+    <p>Hello World!</p>
 </div>
+<footer th:replace="public :: footer"></footer>
 <!-- Optional JavaScript -->
 <!-- jQuery first, then Popper.js, then Bootstrap JS -->
 <script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
@@ -25,8 +27,6 @@
 <script src="https://cdn.bootcss.com/axios/0.18.0/axios.min.js"></script>
 <!-- md5 -->
 <script src="https://cdn.bootcss.com/blueimp-md5/2.10.0/js/md5.js"></script>
-<script>
-
-</script>
+<script th:include="public :: toTop"></script>
 </body>
 </html>

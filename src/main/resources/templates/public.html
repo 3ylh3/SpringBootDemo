@@ -1,0 +1,53 @@
+<header id="header" th:fragment="header" class="navbar fixed-top navbar-expand-lg navbar-dark" style="background-color: #17a2b8">
+    <a class="navbar-brand" th:href="@{/SpringBootDemo/home(ID=${#httpSession.id})}" name="top">中二病灬小白</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item">
+                <a class="nav-link" th:href="@{/SpringBootDemo/home(ID=${#httpSession.id})}">首页</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="https://github.com/3ylh3">github</a>
+            </li>
+        </ul>
+        <button class="btn btn-outline-warning my-2 my-sm-0" v-on:click="toTop">返回顶部</button>
+    </div>
+</header>
+<footer th:fragment="footer" style="border-top: 1px solid gainsboro;">
+    <div class="text-center">
+        <h5>友情链接</h5>
+    </div>
+    <div class="row" style="margin: 0;padding-left: 10%">
+        <div class="col-md-2">
+            aa
+        </div>
+        <div class="col-md-2">
+            bb
+        </div>
+    </div>
+</footer>
+<script th:fragment="toTop">
+    new Vue({
+        el: "#header",
+        data: {
+            flag: ""
+        },
+        methods: {
+            toTop: function () {
+                this.flag = setInterval(this.move,5);
+            },
+            move: function () {
+                if(document.body.scrollTop < 20){
+                    document.body.scrollTop = 0;
+                    clearInterval(this.flag);
+                }
+                else {
+                    document.body.scrollTop = document.body.scrollTop - 20;
+                }
+            }
+        }
+    });
+</script>
