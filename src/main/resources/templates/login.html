@@ -82,7 +82,10 @@
         mounted: function(){
             //自动登录
             if(Cookies.get("username") != null){
-                var param = {username: Cookies.get("username"), password: Cookies.get("password")};
+                this.username = Cookies.get("username");
+                this.password = Cookies.get("password");
+                this.check = true;
+                var param = {username: Cookies.get("username"), password: md5(Cookies.get("password"))};
                 axios.post("/SpringBootDemo/submit", param, {timeout: 60000})
                     .then(function (response) {
                         if(response.data.message == "success"){
@@ -108,7 +111,7 @@
                     if(this.check == true){
                         //保持登陆状态
                         Cookies.set("username",this.username);
-                        Cookies.set("password",pwd);
+                        Cookies.set("password",this.password);
                     }
                     //发送ajax请求
                     var param = {username: this.username, password: pwd};

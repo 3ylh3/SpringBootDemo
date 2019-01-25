@@ -13,40 +13,75 @@
                 <a class="nav-link" href="https://github.com/3ylh3">github</a>
             </li>
         </ul>
-        <button class="btn btn-outline-warning my-2 my-sm-0" v-on:click="toTop">返回顶部</button>
+
+        <ul class="navbar-nav">
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <img alt="" src="/icon/user.jpg" class="rounded-circle" style="height: 30px"/>&nbsp&nbsp<span th:text="${username}"></span>
+                </a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                    <a class="dropdown-item" th:href="@{/SpringBootDemo/usercenter(ID=${#httpSession.id})}">个人中心</a>
+                    <a class="dropdown-item" href="">Another</a>
+                    <a class="dropdown-item" href="" v-on:click.prevent="logout">退出登录</a>
+                </div>
+            </li>
+        </ul>
     </div>
 </header>
 <footer th:fragment="footer" style="border-top: 1px solid gainsboro;">
     <div class="text-center">
         <h5>友情链接</h5>
+        <hr style="margin-left: 45%;margin-right: 45%;background-color: #17a2b8;height:2px;border:none;"/>
     </div>
     <div class="row" style="margin: 0;padding-left: 10%">
-        <div class="col-md-2">
-            aa
+        <div class="col-md-2 alert alert-light" role="alert">
+            <a href="http://www.bootcss.com/" class="alert-link">Bootstrap</a>
         </div>
-        <div class="col-md-2">
-            bb
+        <div class="col-md-2 alert alert-light" role="alert">
+            <a href="https://cn.vuejs.org/v2/guide/" class="alert-link">Vue.js</a>
         </div>
     </div>
 </footer>
-<script th:fragment="toTop">
+<button id="toTopButton" th:fragment="toTopButton" class="btn btn-outline-success btn-sm" v-on:click="toTop" style="position: fixed;right: 1%;bottom: 10%;">返回顶部</button>
+<script th:fragment="public">
     new Vue({
-        el: "#header",
+        el: "#toTopButton",
         data: {
             flag: ""
         },
         methods: {
             toTop: function () {
-                this.flag = setInterval(this.move,5);
+                this.flag = setInterval(this.move,1);
             },
             move: function () {
-                if(document.body.scrollTop < 20){
+                if(document.body.scrollTop < 10){
                     document.body.scrollTop = 0;
                     clearInterval(this.flag);
                 }
                 else {
-                    document.body.scrollTop = document.body.scrollTop - 20;
+                    document.body.scrollTop = document.body.scrollTop - 10;
                 }
+            }
+        }
+    });
+    new Vue({
+        el: "#header",
+        methods: {
+            logout: function () {
+                //清除后台session
+                axios.post("/SpringBootDemo/logout", {username: Cookies.get("username")}, {timeout: 60000})
+                    .then(function (response) {
+                        if(response.data.message == "success"){
+                            //清除cookie
+                            Cookies.remove("username");
+                            Cookies.remove("password");
+                            Cookies.remove("JSESSIONID");
+                            window.location.href = "/SpringBootDemo/login";
+                        }
+                        else{
+                            messageModal.show("系统异常，请稍候再试。");
+                        }
+                    });
             }
         }
     });
