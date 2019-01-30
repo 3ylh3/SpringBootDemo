@@ -44,18 +44,7 @@
     </div>
 </div>
 <!-- 提醒模态框 -->
-<div class="modal fade bd-example-modal-sm" id="messageModal" tabindex="-1" role="dialog" aria-labelledby="messageModal" aria-hidden="true">
-    <div class="modal-dialog modal-sm" role="document">
-        <div class="modal-content">
-            <div class="modal-body">
-                <p>{{ message }}</p>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">确认</button>
-            </div>
-        </div>
-    </div>
-</div>
+<div th:replace="public :: messageModal"></div>
 <!-- Optional JavaScript -->
 <!-- jQuery first, then Popper.js, then Bootstrap JS -->
 <script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
@@ -67,19 +56,9 @@
 <script src="https://cdn.bootcss.com/axios/0.18.0/axios.min.js"></script>
 <!-- md5 -->
 <script src="https://cdn.bootcss.com/blueimp-md5/2.10.0/js/md5.js"></script>
+<!-- 公共script -->
+<script th:include="public :: public"></script>
 <script>
-    var messageModal = new Vue({
-        el: "#messageModal",
-        data: {
-            message: null
-        },
-        methods: {
-            show: function (message) {
-                this.message = message;
-                $(this.$el).modal("show");
-            }
-        }
-    });
     var registerDiv = new Vue({
         el: "#registerDiv",
         data: {

@@ -1,5 +1,6 @@
+<!-- 公共header -->
 <header id="header" th:fragment="header" class="navbar fixed-top navbar-expand-lg navbar-dark" style="background-color: #17a2b8">
-    <a class="navbar-brand" th:href="@{/SpringBootDemo/home(ID=${#httpSession.id})}" name="top">中二病灬小白</a>
+    <a class="navbar-brand" th:href="@{/SpringBootDemo/home(ID=${#httpSession.id})}" name="top" th:text="${nickname}"></a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
     </button>
@@ -17,17 +18,17 @@
         <ul class="navbar-nav">
             <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    <img alt="" src="/icon/user.jpg" class="rounded-circle" style="height: 30px"/>&nbsp&nbsp<span th:text="${username}"></span>
+                    <img alt="" th:src="@{'/' + ${head}}" class="rounded-circle" style="height: 30px"/>&nbsp&nbsp<span th:text="${username}"></span>
                 </a>
                 <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
                     <a class="dropdown-item" th:href="@{/SpringBootDemo/usercenter(ID=${#httpSession.id})}">个人中心</a>
-                    <a class="dropdown-item" href="">Another</a>
                     <a class="dropdown-item" href="" v-on:click.prevent="logout">退出登录</a>
                 </div>
             </li>
         </ul>
     </div>
 </header>
+<!-- 公共footer -->
 <footer th:fragment="footer" style="border-top: 1px solid gainsboro;">
     <div class="text-center">
         <h5>友情链接</h5>
@@ -42,8 +43,39 @@
         </div>
     </div>
 </footer>
+<!-- 提醒模态框 -->
+<div th:fragment="messageModal" class="modal fade bd-example-modal-sm" id="messageModal" tabindex="-1" role="dialog" aria-labelledby="messageModal" aria-hidden="true">
+    <div class="modal-dialog modal-sm" role="document">
+        <div class="modal-content">
+            <div class="modal-body">
+                <p>{{ message }}</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">确认</button>
+            </div>
+        </div>
+    </div>
+</div>
 <button id="toTopButton" th:fragment="toTopButton" class="btn btn-outline-success btn-sm" v-on:click="toTop" style="position: fixed;right: 1%;bottom: 10%;">返回顶部</button>
+<!-- 公共script -->
 <script th:fragment="public">
+    var messageModal = new Vue({
+        el: "#messageModal",
+        data: {
+            message: null
+        },
+        methods: {
+            show: function (message) {
+                this.message = message;
+                $(this.$el).modal("show");
+            },
+            reloadAfterHide: function () {
+                $(this.$el).on("hide.bs.modal",function () {
+                    window.location.reload();
+                });
+            }
+        }
+    });
     new Vue({
         el: "#toTopButton",
         data: {

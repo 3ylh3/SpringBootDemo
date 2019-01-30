@@ -19,6 +19,8 @@ public class HomePageController {
         }
         else if(ID.equals(session.getId())) {
             model.addAttribute("username",session.getAttribute("username"));
+            model.addAttribute("head",session.getAttribute("head"));
+            model.addAttribute("nickname",session.getAttribute("nickname"));
             return "home";
         }
         else{

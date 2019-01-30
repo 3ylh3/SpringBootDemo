@@ -35,6 +35,28 @@
 　　　　　 <pattern>${layout}</pattern>
 　　　　</encoder>
 　　</appender>
+
+   <!-- 保存用户信息日志 -->
+   <appender name="SaveUserInfo" class="ch.qos.logback.core.rolling.RollingFileAppender">
+      <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+         <fileNamePattern>${log.base}/saveUserInfo_%d{yyyyMMdd}.log</fileNamePattern>
+      </rollingPolicy>
+      <!-- 日志输出的文件的格式 -->
+      <encoder>
+　　　　　 <pattern>${layout}</pattern>
+　　　　</encoder>
+　　</appender>
+
+   <!-- 保存头像日志 -->
+   <appender name="SaveHead" class="ch.qos.logback.core.rolling.RollingFileAppender">
+      <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+         <fileNamePattern>${log.base}/saveHead_%d{yyyyMMdd}.log</fileNamePattern>
+      </rollingPolicy>
+      <!-- 日志输出的文件的格式 -->
+      <encoder>
+　　　　　 <pattern>${layout}</pattern>
+　　　　</encoder>
+　　</appender>
    
    <logger name="Register" level="info" addtivity="false">
       <appender-ref ref="Console" />
@@ -43,5 +65,13 @@
    <logger name="Login" level="info" addtivity="false">
       <appender-ref ref="Console" />
       <appender-ref ref="Login" />
+   </logger>
+   <logger name="SaveUserInfo" level="info" addtivity="false">
+      <appender-ref ref="Console" />
+      <appender-ref ref="SaveUserInfo" />
+   </logger>
+   <logger name="SaveHead" level="info" addtivity="false">
+      <appender-ref ref="Console" />
+      <appender-ref ref="SaveHead" />
    </logger>
 </configuration>

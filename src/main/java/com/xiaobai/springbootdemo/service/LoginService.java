@@ -1,5 +1,7 @@
 package com.xiaobai.springbootdemo.service;
 
+import java.util.Map;
+
 public interface LoginService {
-    public String login(String username,String password);
+    public Map<String,String> login(String username, String password);
 }

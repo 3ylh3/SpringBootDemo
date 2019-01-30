@@ -10,11 +10,12 @@
 
     <title>我的主页</title>
 </head>
+<!-- 公共header -->
 <header th:replace="public :: header"></header>
 <body>
 <div class="container-fluid" style="padding-top: 56px">
     <button th:replace="public :: toTopButton"></button>
-    <p>Hello World!</p>
+    <p th:text="'Hello！, ' + ${username} + '!'">Hello World!</p>
     <br/>
     <br/>
     <br/>
@@ -48,6 +49,7 @@
 
 
 </div>
+<!-- 公共footer -->
 <footer th:replace="public :: footer"></footer>
 <!-- Optional JavaScript -->
 <!-- jQuery first, then Popper.js, then Bootstrap JS -->
@@ -62,6 +64,7 @@
 <script src="https://cdn.bootcss.com/blueimp-md5/2.10.0/js/md5.js"></script>
 <!-- js-cookie -->
 <script src="https://cdn.bootcss.com/js-cookie/latest/js.cookie.min.js"></script>
+<!-- 公共script -->
 <script th:include="public :: public"></script>
 </body>
 </html>
