@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--
+    namespace：必须与对应的接口全类名一致
+    id ：必须与对应接口的某个对应的方法名一致
+ -->
+
+<mapper namespace="com.xiaobai.springbootdemo.dao.NoteMapper">
+
+   <resultMap id="notes" type="com.xiaobai.springbootdemo.bean.Note">
+      <result column="title" property="title" jdbcType="VARCHAR"/>
+      <result column="note" property="note" jdbcType="VARCHAR"/>
+      <result column="date" property="date" jdbcType="VARCHAR"/>
+      <result column="num" property="num" jdbcType="INTEGER"/>
+   </resultMap>
+
+   <insert id="addNote" parameterType="java.lang.String">
+       insert into notes(username,title,note,date) value (#{username},#{title},#{note},#{date})
+   </insert>
+
+   <select id="queryNoteByTitle" parameterType="java.lang.String" resultType="com.xiaobai.springbootdemo.bean.Note">
+       select title,note from notes where username = #{username} and title = #{title}
+   </select>
+
+   <select id="queryTotalNum" parameterType="java.lang.String" resultType="java.lang.Double">
+       select count(title) nums from notes where username = #{username}
+   </select>
+
+   <select id="queryNotesByUsername" resultMap="notes">
+       select title,note,date,num from notes where username = #{username} order by date desc  limit #{start},#{end}
+   </select>
+
+   <update id="addNum" parameterType="java.lang.String">
+       update notes set num = num + 1 where username = #{username} and title = #{title}
+   </update>
+
+   <select id="queryPopularNote" resultMap="notes">
+       select title,num from notes where username = #{username} order by num desc  limit 0,5
+   </select>
+</mapper>

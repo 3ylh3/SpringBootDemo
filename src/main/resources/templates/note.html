@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <!-- zico -->
+    <link rel="stylesheet" href="http://ico.z01.com/zico.min.css">
+    <title th:text="${title}"></title>
+</head>
+<body>
+<!-- 公共header -->
+<header th:replace="public :: header"></header>
+<div class="container-fluid" style="padding-top: 56px;background-color: gainsboro">
+    <!-- 返回顶部按钮 -->
+    <button th:replace="public :: toTopButton"></button>
+    <div class="row">
+        <div class="col-10 offset-1" style="background-color: white;margin-top: 40px;min-height: 350px" th:object="${note}">
+            <h2 style="color: #17a2b8" th:text="${note.title}"></h2>
+            <br/>
+            <div th:utext="${note.note}"></div>
+        </div>
+    </div>
+</div>
+
+<!-- 公共footer -->
+<footer th:replace="public :: footer"></footer>
+<!-- Optional JavaScript -->
+<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+<script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+<script src="https://cdn.bootcss.com/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+<script src="https://cdn.bootcss.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+<!-- vue -->
+<script src="https://cdn.bootcss.com/vue/2.5.21/vue.min.js"></script>
+<!-- axios -->
+<script src="https://cdn.bootcss.com/axios/0.18.0/axios.min.js"></script>
+<!-- 公共script -->
+<script th:include="public :: public"></script>
+</body>
+</html>

@@ -7,7 +7,8 @@
 
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-
+    <!-- zico -->
+    <link rel="stylesheet" href="http://ico.z01.com/zico.min.css">
     <title>我的主页</title>
 </head>
 <!-- 公共header -->
@@ -15,39 +16,48 @@
 <body>
 <div class="container-fluid" style="padding-top: 56px">
     <button th:replace="public :: toTopButton"></button>
-    <p th:text="'Hello！, ' + ${username} + '!'">Hello World!</p>
-    <br/>
-    <br/>
-    <br/>
-    <br/>
-    <br/>
-    <br/>
-    <br/>
-    <br/>
-    <br/>
-    <br/>
-    <br/>
-    <br/><br/>
-    <br/>
-    <br/>
-    <br/>
-    <br/>
-    <br/>
-    <br/>
-    <br/>
-    <br/>
-    <br/>
-    <br/>
-    <br/>
-    <br/>
-    <br/>
-    <br/>
-    <br/><br/>
-    <br/>
-    <br/>
-    <br/>
-
-
+    <div class="row" style="padding-top: 20px">
+        <div class="col-9" id="notes">
+            <div class="list-group">
+                <a th:href="@{/SpringBootDemo/note(ID=${#httpSession.id},title=${note.title})}" class="list-group-item flex-column align-items-start" th:object="${note}" th:each="note : ${notes}">
+                    <div class="d-flex w-100 justify-content-between">
+                        <h5 class="mb-1" th:text="${note.title}"></h5>
+                        <small th:text="${note.date}"></small>
+                    </div>
+                    <small th:text="'阅读(' + ${note.num} + ')'"></small>
+                </a>
+            </div>
+            <div style="padding-top: 20px;">
+                <nav aria-label="Page navigation example">
+                    <ul class="pagination justify-content-center" id="ul">
+                        <li class="page-item" id="previous">
+                            <a v-bind:href="preHref" class="page-link" aria-label="Previous">
+                                <span aria-hidden="true">&laquo;</span>
+                                <span class="sr-only">Previous</span>
+                            </a>
+                        </li>
+                        <li class="page-item" th:each="num : ${nums}"><a class="page-link" th:text="${num}" th:href="@{/SpringBootDemo/queryNoteByPage(ID=${#httpSession.id},page=${num})}"></a></li>
+                        <li class="page-item" id="next">
+                            <a class="page-link" v-bind:href="nextHref" aria-label="Next">
+                                <span aria-hidden="true">&raquo;</span>
+                                <span class="sr-only">Next</span>
+                            </a>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+        <div class="col-3">
+            <p style="color: #17a2b8">阅读排行</p>
+            <div class="list-group list-group-flush">
+                <a th:href="@{/SpringBootDemo/note(ID=${#httpSession.id},title=${note.title})}" class="list-group-item flex-column align-items-start" th:object="${note}" th:each="note : ${popularNote}" style="color: gray">
+                    <div class="d-flex w-100 justify-content-between">
+                        <p class="mb-1" th:text="${note.title} + '(' + ${note.num} + ')'"></p>
+                    </div>
+                </a>
+            </div>
+        </div>
+    </div>
 </div>
 <!-- 公共footer -->
 <footer th:replace="public :: footer"></footer>
@@ -66,5 +76,35 @@
 <script src="https://cdn.bootcss.com/js-cookie/latest/js.cookie.min.js"></script>
 <!-- 公共script -->
 <script th:include="public :: public"></script>
+<script th:inline="javascript">
+    new Vue({
+        el: "#notes",
+        data: {
+            index: [[${index}]],
+            size: [[${nums}]].length,
+            preHref: "",
+            nextHref: ""
+        },
+        mounted: function(){
+            $("#ul li:eq(" + this.index + ")").addClass("active");
+            if(this.index == 1){
+                $("#previous").addClass("disabled");
+            }
+            if(this.index == this.size){
+                $("#next").addClass("disabled");
+            }
+            var prePage = this.index - 1;
+            var nextPage = this.index + 1;
+            if(prePage > 0){
+                this.preHref = "/SpringBootDemo/queryNoteByPage?ID=" + [[${#httpSession.id}]] + "&page=" + prePage;
+            }
+            if(nextPage <= this.size){
+                this.nextHref = "/SpringBootDemo/queryNoteByPage?ID=" + [[${#httpSession.id}]] + "&page=" + nextPage;
+            }
+        },
+        methods: {
+        }
+    });
+</script>
 </body>
 </html>

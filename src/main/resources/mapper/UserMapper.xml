@@ -28,4 +28,8 @@
    <update id="saveHead" parameterType="java.lang.String">
        update user set head = #{head} where username = #{username}
    </update>
+
+   <update id="modifyPassword" parameterType="java.lang.String">
+       update user set password = #{password} where username = #{username}
+   </update>
 </mapper>

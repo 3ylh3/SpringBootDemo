@@ -57,7 +57,41 @@
 　　　　　 <pattern>${layout}</pattern>
 　　　　</encoder>
 　　</appender>
-   
+
+   <!-- 修改密码日志 -->
+   <appender name="ModifyPassword" class="ch.qos.logback.core.rolling.RollingFileAppender">
+      <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+         <fileNamePattern>${log.base}/modifyPassword_%d{yyyyMMdd}.log</fileNamePattern>
+      </rollingPolicy>
+      <!-- 日志输出的文件的格式 -->
+      <encoder>
+　　　　　 <pattern>${layout}</pattern>
+　　　　</encoder>
+　　</appender>
+
+   <!-- 添加图片日志 -->
+   <appender name="AddImg" class="ch.qos.logback.core.rolling.RollingFileAppender">
+      <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+         <fileNamePattern>${log.base}/addImg_%d{yyyyMMdd}.log</fileNamePattern>
+      </rollingPolicy>
+      <!-- 日志输出的文件的格式 -->
+      <encoder>
+　　　　　 <pattern>${layout}</pattern>
+　　　　</encoder>
+　　</appender>
+
+   <!-- 添加笔记日志 -->
+   <appender name="AddNote" class="ch.qos.logback.core.rolling.RollingFileAppender">
+      <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+         <fileNamePattern>${log.base}/addNote_%d{yyyyMMdd}.log</fileNamePattern>
+      </rollingPolicy>
+      <!-- 日志输出的文件的格式 -->
+      <encoder>
+　　　　　 <pattern>${layout}</pattern>
+　　　 </encoder>
+　　</appender>
+
+
    <logger name="Register" level="info" addtivity="false">
       <appender-ref ref="Console" />
       <appender-ref ref="Register" />
@@ -73,5 +107,17 @@
    <logger name="SaveHead" level="info" addtivity="false">
       <appender-ref ref="Console" />
       <appender-ref ref="SaveHead" />
+   </logger>
+   <logger name="ModifyPassword" level="info" addtivity="false">
+      <appender-ref ref="Console" />
+      <appender-ref ref="ModifyPassword" />
+   </logger>
+   <logger name="AddImg" level="info" addtivity="false">
+      <appender-ref ref="Console" />
+      <appender-ref ref="AddImg" />
+   </logger>
+   <logger name="AddNote" level="info" addtivity="false">
+      <appender-ref ref="Console" />
+      <appender-ref ref="AddNote" />
    </logger>
 </configuration>

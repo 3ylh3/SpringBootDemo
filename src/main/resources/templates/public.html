@@ -15,6 +15,10 @@
             </li>
         </ul>
 
+        <div class="navbar-nav">
+            <a class="nav-link" th:href="@{/SpringBootDemo/newNote(ID=${#httpSession.id})}"><i class="zi zi_plus"></i></a>
+        </div>
+
         <ul class="navbar-nav">
             <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -26,6 +30,7 @@
                 </div>
             </li>
         </ul>
+
     </div>
 </header>
 <!-- 公共footer -->

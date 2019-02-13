@@ -11,4 +11,5 @@ public interface UserMapper {
     public User queryUserByUsername(@Param("username")String username);
     public void saveUserInfo(@Param("username")String username,@Param("nickname")String nickname,@Param("sex")String sex,@Param("email")String email,@Param("mobile")String mobile,@Param("birthday")String birthday,@Param("introduce")String introduce);
     public void saveHead(@Param("username")String username,@Param("head")String head);
+    public void modifyPassword(@Param("username")String username,@Param("password")String password);
 }

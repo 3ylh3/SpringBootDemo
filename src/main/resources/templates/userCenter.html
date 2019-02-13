@@ -18,6 +18,7 @@
 <!-- 公共header -->
 <header th:replace="public :: header"></header>
 <body style="height: 100%">
+<!-- 返回顶部按钮 -->
 <button th:replace="public :: toTopButton"></button>
 <div class="container-fluid" style="padding-top: 56px;height: 100%">
     <div class="row" style="height: 100%">
@@ -35,7 +36,7 @@
                             <img th:src="@{'/' + ${head}}" alt="" style="height: 150px"/>
                             <div class="list-group" style="padding-top: 20px">
                                 <a href="#" class="list-group-item" v-on:click.prevent="modifyHeadModal"><i class="zi zi_camera"></i>&nbsp&nbsp修改头像</a>
-                                <a href="#" class="list-group-item"><i class="zi zi_pencilalt"></i>&nbsp&nbsp修改密码</a>
+                                <a href="#" class="list-group-item" v-on:click.precent="modifyPasswordModal"><i class="zi zi_pencilalt"></i>&nbsp&nbsp修改密码</a>
                             </div>
                             <!-- 修改头像模态框 -->
                             <div class="modal fade" id="modifyHeadModal" ref="modifyHeadModal" tabindex="-1" role="dialog" aria-labelledby="modifyHeadModal" aria-hidden="true">
@@ -60,6 +61,61 @@
                                         </div>
                                         <div class="modal-footer" v-if="seen">
                                             <button type="button" class="btn btn-primary" v-on:click="saveHead">保存</button>
+                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">关闭</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- 修改密码模态框 -->
+                            <div class="modal fade" id="modifyPasswordModal" ref="modifyPasswordModal" tabindex="-1" role="dialog" aria-labelledby="modifyHeadModal" aria-hidden="true">
+                                <div class="modal-dialog" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h6 class="modal-title">修改密码</h6>
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <form>
+                                                <div class="form-group row">
+                                                    <label for="oldPassword" class="col-2 col-form-label">原密码</label>
+                                                    <div class="col-8">
+                                                        <input type="password" v-bind:class="oldPasswordClass" id="oldPassword" v-model="oldPassword" v-on:input="checkPassword">
+                                                        <div class="invalid-feedback" >
+                                                            原密码错误
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group row">
+                                                    <label for="newPassword" class="col-2 col-form-label">新密码</label>
+                                                    <div class="col-8">
+                                                        <input type="password" v-bind:class="newPasswordClass" id="newPassword" v-model="newPassword" v-on:input="checkNewPassword">
+                                                        <div class="invalid-feedback" >
+                                                            密码不得少于6位
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group row">
+                                                    <label for="confirmPassword" class="col-2 col-form-label">确认密码</label>
+                                                    <div class="col-8">
+                                                        <input type="password" v-bind:class="confirmPasswordClass" id="confirmPassword" v-model="confirmPassword" v-on:input="checkConfirmPassword">
+                                                        <div class="invalid-feedback" >
+                                                            两次输入密码不一致
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </form>
+                                        </div>
+                                        <div class="modal-footer" >
+                                            <span style="color: #dc3545" v-if="seen1">
+                                                输入有错误，请检查！
+                                            </span>
+                                            <span style="color: #dc3545" v-if="seen2">
+                                                必填项不能为空！
+                                            </span>
+                                            <button type="button" class="btn btn-primary" v-on:click="modifyPassword">保存</button>
                                             <button type="button" class="btn btn-secondary" data-dismiss="modal">关闭</button>
                                         </div>
                                     </div>
@@ -197,7 +253,30 @@
         el: "#list",
         data: {
             seen: false,
-            file: null
+            seen1: false,
+            seen2: false,
+            file: null,
+            oldPasswordFlag: true,
+            confirmPasswordFlag: true,
+            newPasswordFlag: true,
+            oldPassword: "",
+            newPassword: "",
+            confirmPassword: "",
+            oldPasswordClass: {
+                "form-control": true,
+                "is-valid": false,
+                "is-invalid": false
+            },
+            newPasswordClass: {
+                "form-control": true,
+                "is-valid": false,
+                "is-invalid": false
+            },
+            confirmPasswordClass: {
+                "form-control": true,
+                "is-valid": false,
+                "is-invalid": false
+            }
         },
         mounted: function(){
             var options = {
@@ -273,6 +352,122 @@
                             messageModal.show("系统异常，请稍候再试。");
                         }
                     });
+            },
+            modifyPasswordModal: function () {
+                $("#modifyPasswordModal").on('hidden.bs.modal', function () {
+                    list.seen1 = false;
+                    list.seen2 = false;
+                    list.oldPasswordFlag = true;
+                    list.confirmPasswordFlag = true;
+                    list.newPasswordFlag = true;
+                    list.oldPassword = "";
+                    list.newPassword = "";
+                    list.confirmPassword = "";
+                    list.oldPasswordClass = {
+                        "form-control": true,
+                        "is-valid": false,
+                        "is-invalid": false
+                    };
+                    list.newPasswordClass = {
+                        "form-control": true,
+                        "is-valid": false,
+                        "is-invalid": false
+                    };
+                    list.confirmPasswordClass = {
+                        "form-control": true,
+                        "is-valid": false,
+                        "is-invalid": false
+                    };
+                });
+                $("#modifyPasswordModal").modal("show");
+            },
+            checkPassword: function () {
+                if(this.oldPassword == ""){
+                    this.oldPasswordClass["is-invalid"] = false;
+                    this.oldPasswordClass["is-valid"] = false;
+                    this.oldPasswordFlag = true;
+                }
+                else{
+                    var param = {username: Cookies.get("username"),password: md5(this.oldPassword)};
+                    var object = this;
+                    axios.post("/SpringBootDemo/checkPassword", param, {timeout: 60000})
+                        .then(function (response) {
+                            if (response.data.message == "error") {
+                                object.oldPasswordClass["is-invalid"] = true;
+                                object.oldPasswordClass["is-valid"] = false;
+                                object.oldPasswordFlag = false;
+                            } else {
+                                object.oldPasswordClass["is-valid"] = true;
+                                object.oldPasswordClass["is-invalid"] = false;
+                                object.oldPasswordFlag = true;
+                            }
+                        });
+                }
+            },
+            checkNewPassword: function(){
+                if(this.newPassword == ""){
+                    this.newPasswordClass["is-invalid"] = false;
+                    this.newPasswordClass["is-valid"] = false;
+                    this.newPasswordFlag = true;
+                }
+                else if(this.newPassword.length < 6){
+                    this.newPasswordClass["is-invalid"] = true;
+                    this.newPasswordClass["is-valid"] = false;
+                    this.newPasswordFlag = false;
+                }
+                else{
+                    this.newPasswordClass["is-invalid"] = false;
+                    this.newPasswordClass["is-valid"] = true;
+                    this.newPasswordFlag = true;
+                }
+                this.checkConfirmPassword();
+            },
+            checkConfirmPassword: function () {
+                if(this.confirmPassword == ""){
+                    this.confirmPasswordClass["is-invalid"] = false;
+                    this.confirmPasswordClass["is-valid"] = false;
+                    this.confirmPasswordFlag = true;
+                }
+                else if(this.newPassword != this.confirmPassword){
+                    this.confirmPasswordClass["is-invalid"] = true;
+                    this.confirmPasswordClass["is-valid"] = false;
+                    this.confirmPasswordFlag = false;
+                }
+                else{
+                    this.confirmPasswordClass["is-invalid"] = false;
+                    this.confirmPasswordClass["is-valid"] = true;
+                    this.confirmPasswordFlag = true;
+                }
+            },
+            modifyPassword: function () {
+                this.seen1 = false;
+                this.seen2 = false;
+                if(this.oldPasswordFlag == false || this.confirmPasswordFlag == false || this.newPasswordFlag == false){
+                    this.seen1 = true;
+                }
+                else if(this.oldPassword == "" || this.newPassword == "" || this.confirmPassword == ""){
+                    this.seen2 = true;
+                }
+                else{
+                    //md5加密
+                    var pwd = md5(this.newPassword);
+                    var _this = this;
+                    //发送ajax请求
+                    //发送ajax请求
+                    var param = {username: Cookies.get("username"), password: pwd};
+                    axios.post("/SpringBootDemo/modifyPassword", param, {timeout: 60000})
+                        .then(function (response) {
+                            if(response.data.message == "success"){
+                                //更新cookie中的密码
+                                Cookies.set("password",_this.newPassword);
+                                messageModal.reloadAfterHide();
+                                messageModal.show("修改密码成功！");
+                            }
+                            else{
+                                messageModal.show("系统异常，请稍候再试。");
+                            }
+                        });
+                }
             }
         }
     });
