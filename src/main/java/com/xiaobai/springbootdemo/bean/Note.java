@@ -5,6 +5,11 @@ public class Note {
     private String note;
     private String date;
     private int num;
+    private String oldTitle;
+
+    public String getOldTitle() {
+        return oldTitle;
+    }
 
     public int getNum() {
         return num;
@@ -36,5 +41,9 @@ public class Note {
 
     public void setNum(int num) {
         this.num = num;
+    }
+
+    public void setOldTitle(String oldTitle) {
+        this.oldTitle = oldTitle;
     }
 }

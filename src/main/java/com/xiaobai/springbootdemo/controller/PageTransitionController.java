@@ -164,4 +164,27 @@ public class PageTransitionController {
             return "redirect:/SpringBootDemo/login";
         }
     }
+    @RequestMapping("/modifyNote")
+    public String modifyNote(HttpServletRequest request, Model model){
+        String ID = request.getParameter("ID");
+        String title = request.getParameter("title");
+        HttpSession session = request.getSession();
+        String username = session.getAttribute("username").toString();
+        if(ID == null){
+            return "redirect:/SpringBootDemo/login";
+        }
+        else if(ID.equals(session.getId())) {
+            model.addAttribute("username",username);
+            model.addAttribute("head",session.getAttribute("head"));
+            model.addAttribute("nickname",session.getAttribute("nickname"));
+            model.addAttribute("title",title);
+            //查询笔记内容
+            Note note = queryNoteService.queryNoteByTitle(username,title);
+            model.addAttribute("note",note.getNote());
+            return "modifyNote";
+        }
+        else{
+            return "redirect:/SpringBootDemo/login";
+        }
+    }
 }

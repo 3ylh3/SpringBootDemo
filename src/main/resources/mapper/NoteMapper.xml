@@ -38,4 +38,12 @@
    <select id="queryPopularNote" resultMap="notes">
        select title,num from notes where username = #{username} order by num desc  limit 0,5
    </select>
+
+   <delete id="deleteNote" parameterType="java.lang.String">
+       delete from notes where username = #{username} and title = #{title}
+   </delete>
+
+   <update id="modifyNote" parameterType="java.lang.String">
+       update notes set title = #{title},note = #{note} where username = #{username} and title = #{oldTitle}
+   </update>
 </mapper>

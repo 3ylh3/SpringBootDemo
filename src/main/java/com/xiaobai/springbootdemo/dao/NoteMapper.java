@@ -14,4 +14,6 @@ public interface NoteMapper {
     public List<Note> queryNotesByUsername(@Param("username")String username,@Param("start")int start,@Param("end")int end);
     public void addNum(@Param("username")String name,@Param("title")String title);
     public List<Note> queryPopularNote(@Param("username")String username);
+    public void deleteNote(@Param("username")String username,@Param("title")String title);
+    public void modifyNote(@Param("username")String username,@Param("title")String title,@Param("oldTitle")String oldTitle,@Param("note")String note);
 }

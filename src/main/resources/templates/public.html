@@ -63,7 +63,7 @@
 </div>
 <button id="toTopButton" th:fragment="toTopButton" class="btn btn-outline-success btn-sm" v-on:click="toTop" style="position: fixed;right: 1%;bottom: 10%;">返回顶部</button>
 <!-- 公共script -->
-<script th:fragment="public">
+<script th:fragment="public" th:inline="javascript">
     var messageModal = new Vue({
         el: "#messageModal",
         data: {
@@ -77,6 +77,11 @@
             reloadAfterHide: function () {
                 $(this.$el).on("hide.bs.modal",function () {
                     window.location.reload();
+                });
+            },
+            toHomeAfterHide: function(){
+                $(this.$el).on("hide.bs.modal",function () {
+                    window.location.href = "/SpringBootDemo/home?ID=[[${#httpSession.id}]]";
                 });
             }
         }

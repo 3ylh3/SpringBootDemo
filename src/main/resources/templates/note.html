@@ -24,8 +24,15 @@
             <div th:utext="${note.note}"></div>
         </div>
     </div>
+    <div class="row" style="margin-top:20px;padding-bottom: 5px">
+        <div id="note" class="offset-1" >
+            <a th:href="@{/SpringBootDemo/modifyNote(ID=${#httpSession.id},title=${note.title})}" class="btn btn-warning">修改</a>
+            <button v-on:click="del" type="button" class="btn btn-danger">删除</button>
+        </div>
+    </div>
 </div>
-
+<!-- 提醒模态框 -->
+<div th:replace="public :: messageModal"></div>
 <!-- 公共footer -->
 <footer th:replace="public :: footer"></footer>
 <!-- Optional JavaScript -->
@@ -39,5 +46,29 @@
 <script src="https://cdn.bootcss.com/axios/0.18.0/axios.min.js"></script>
 <!-- 公共script -->
 <script th:include="public :: public"></script>
+<script th:inline="javascript">
+    new Vue({
+        el: "#note",
+        data: {
+            title: [[${title}]]
+        },
+        methods: {
+            del: function () {
+                var param = {title: this.title};
+                //发送ajax请求
+                axios.post("/SpringBootDemo/deleteNote", param, {timeout: 60000})
+                    .then(function (response) {
+                        if(response.data.message == "success"){
+                            messageModal.toHomeAfterHide();
+                            messageModal.show("删除成功！");
+                        }
+                        else{
+                            messageModal.show("系统异常，请稍候再试。");
+                        }
+                    });
+            }
+        }
+    });
+</script>
 </body>
 </html>

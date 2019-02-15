@@ -91,6 +91,27 @@
 　　　 </encoder>
 　　</appender>
 
+   <!-- 删除笔记日志 -->
+   <appender name="DeleteNote" class="ch.qos.logback.core.rolling.RollingFileAppender">
+      <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+         <fileNamePattern>${log.base}/deleteNote_%d{yyyyMMdd}.log</fileNamePattern>
+      </rollingPolicy>
+      <!-- 日志输出的文件的格式 -->
+      <encoder>
+　　　　　 <pattern>${layout}</pattern>
+　　　 </encoder>
+　　</appender>
+
+   <!-- 修改笔记日志 -->
+   <appender name="ModifyNote" class="ch.qos.logback.core.rolling.RollingFileAppender">
+      <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+         <fileNamePattern>${log.base}/modifyNote_%d{yyyyMMdd}.log</fileNamePattern>
+      </rollingPolicy>
+      <!-- 日志输出的文件的格式 -->
+      <encoder>
+　　　　　 <pattern>${layout}</pattern>
+　　　 </encoder>
+　　</appender>
 
    <logger name="Register" level="info" addtivity="false">
       <appender-ref ref="Console" />
@@ -119,5 +140,13 @@
    <logger name="AddNote" level="info" addtivity="false">
       <appender-ref ref="Console" />
       <appender-ref ref="AddNote" />
+   </logger>
+   <logger name="DeleteNote" level="info" addtivity="false">
+      <appender-ref ref="Console" />
+      <appender-ref ref="DeleteNote" />
+   </logger>
+   <logger name="ModifyNote" level="info" addtivity="false">
+      <appender-ref ref="Console" />
+      <appender-ref ref="ModifyNote" />
    </logger>
 </configuration>
