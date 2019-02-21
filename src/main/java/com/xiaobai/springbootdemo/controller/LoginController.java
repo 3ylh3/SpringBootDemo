@@ -29,6 +29,7 @@ public class LoginController {
         //将sessionId存在cookie中返回
         String sessionId = session.getId();
         Cookie cookie = new Cookie("JSESSIONID", sessionId);
+        cookie.setMaxAge(1000 * 60 * 60 * 24 * 7);
         cookie.setPath(request.getContextPath());
         response.addCookie(cookie);
         Message message = new Message();

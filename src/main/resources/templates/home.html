@@ -27,7 +27,8 @@
                     <small th:text="'阅读(' + ${note.num} + ')'"></small>
                 </a>
             </div>
-            <div style="padding-top: 20px;">
+            <div class="alert alert-info" role="alert" v-if="seen">暂时无笔记</div>
+            <div style="padding-top: 20px;" v-if="seen1">
                 <nav aria-label="Page navigation example">
                     <ul class="pagination justify-content-center" id="ul">
                         <li class="page-item" id="previous">
@@ -83,9 +84,16 @@
             index: [[${index}]],
             size: [[${nums}]].length,
             preHref: "",
-            nextHref: ""
+            nextHref: "",
+            length: [[${notes}]].length,
+            seen: false,
+            seen1: true
         },
         mounted: function(){
+            if(this.length == 0){
+                this.seen = true;
+                this.seen1 = false;
+            }
             $("#ul li:eq(" + this.index + ")").addClass("active");
             if(this.index == 1){
                 $("#previous").addClass("disabled");
