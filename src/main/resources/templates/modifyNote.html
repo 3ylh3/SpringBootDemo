@@ -20,7 +20,7 @@
     <!-- 返回顶部按钮 -->
     <button th:replace="public :: toTopButton"></button>
     <div class="row" style="padding-top: 20px;padding-bottom: 20px">
-        <div class="col-8 offset-2" id="noteDiv">
+        <div class="col-12 col-md-8 offset-md-2" id="noteDiv">
             <form>
                 <div class="form-group">
                     <label for="title">标题</label>
@@ -330,20 +330,24 @@
                     $("#note").focus();
                 }
                 else{
-                    tmpText = "&zwj;";//&zwj;
+                    tmpText = "&zwj;";
+                    //删除最后换行
+                    if($("#note").find("br").last().length != 0){
+                        $("#note").find("br").last().remove();
+                    }
                     var text = startText + tmpText + endText;
                     if($("#note").children(":last-child").length == 0){
                         $("#note").append(text);
                     }
                     else{
-                        $("#note").find("span").last().append(text);
+                        $("#note").find("*").last().append(text);
                     }
                     //将光标定位到最后
                     $("#note").focus();
-                    if($("#note").find("span").last().length == 0){
+                    if($("#note").find("*").last().length == 0){
                         var el = $("#note").get(0);
                     }
-                    el = $("#note").find("span").last().get(0);
+                    el = $("#note").find("*").last().get(0);
                     this.range.selectNodeContents(el);
                 }
                 this.selection.removeAllRanges();
@@ -408,11 +412,13 @@
                             if(response.data.message == "success"){
                                 range = window.getSelection().getRangeAt(0);
                                 range.collapse(false);
-                                var img = '<img alt="" src="' + '/' + response.data.img + '" />';
+                                var img = '<img alt="" style="max-width: 100%" src="' + '/' + response.data.img + '" />';
                                 node = range.createContextualFragment(img);
                                 var c = node.lastChild;
                                 range.insertNode(node);
                                 $("#addImgModal").modal("hide");
+                                $("#note").focus();
+                                range.collapse(false);
                             }
                             else{
                                 messageModal.show("系统异常，请稍候再试。");

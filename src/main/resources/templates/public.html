@@ -39,7 +39,7 @@
         <h5>友情链接</h5>
         <hr style="margin-left: 45%;margin-right: 45%;background-color: #17a2b8;height:2px;border:none;"/>
     </div>
-    <div class="row" style="margin: 0;padding-left: 10%">
+    <div class="row" style="margin: 0;padding-left: 10%;">
         <div class="col-md-2 alert alert-light" role="alert">
             <a href="http://www.bootcss.com/" class="alert-link">Bootstrap</a>
         </div>
@@ -61,7 +61,7 @@
         </div>
     </div>
 </div>
-<button id="toTopButton" th:fragment="toTopButton" class="btn btn-outline-success btn-sm" v-on:click="toTop" style="position: fixed;right: 1%;bottom: 10%;">返回顶部</button>
+<button id="toTopButton" th:fragment="toTopButton" class="btn btn-outline-success btn-sm" v-on:click="toTop" style="position: fixed;right: 1%;bottom: 10%;z-index:100">返回顶部</button>
 <!-- 公共script -->
 <script th:fragment="public" th:inline="javascript">
     var messageModal = new Vue({

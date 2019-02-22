@@ -17,26 +17,26 @@
 </head>
 <!-- 公共header -->
 <header th:replace="public :: header"></header>
-<body style="height: 100%">
+<body>
 <!-- 返回顶部按钮 -->
 <button th:replace="public :: toTopButton"></button>
-<div class="container-fluid" style="padding-top: 56px;height: 100%">
+<div class="container-fluid" style="padding-top: 56px;">
     <div class="row" style="height: 100%">
-        <div class="col-2" style="padding-left: 0;height: 100%;">
-            <div class="list-group list-group-flush" id="list-tab" role="tablist" style="border-right: 1px solid gainsboro;height: 100%">
-                <a class="list-group-item list-group-item-action list-group-item-light active" data-toggle="list" href="#list-setting" role="tab"><i class="zi zi_cog"></i>&nbsp&nbsp个人设置</a>
+        <div class="col-12 col-md-2" style="padding-left: 0;padding-right:0;">
+            <div class="list-group list-group-flush" id="list-tab" role="tablist">
+                <a class="list-group-item list-group-item-action list-group-item-light active" data-toggle="list" href="#list-setting" role="tab"><i class="zi zi_cog"></i> 个人设置</a>
                 <a class="list-group-item list-group-item-action list-group-item-light" data-toggle="list" href="#list-profile" role="tab">Profile</a>
             </div>
         </div>
-        <div class="col-10" style="padding-top: 2%">
+        <div class="col-12 col-md-10" style="padding-top: 2%;padding-bottom: 20px;border-left: 1px solid gainsboro;">
             <div class="tab-content" id="nav-tabContent">
                 <div class="tab-pane fade show active" id="list-setting" role="tabpanel">
                     <div class="row">
-                        <div class="col-2" id="list">
-                            <img th:src="@{'/' + ${head}}" alt="" style="height: 150px"/>
+                        <div class="col-5 col-md-2" id="list" style="padding-right:0;padding-bottom: 10px;">
+                            <img th:src="@{'/' + ${head}}" alt="" style="height: inherit; width: inherit;"/>
                             <div class="list-group" style="padding-top: 20px">
-                                <a href="#" class="list-group-item" v-on:click.prevent="modifyHeadModal"><i class="zi zi_camera"></i>&nbsp&nbsp修改头像</a>
-                                <a href="#" class="list-group-item" v-on:click.precent="modifyPasswordModal"><i class="zi zi_pencilalt"></i>&nbsp&nbsp修改密码</a>
+                                <a href="#" class="list-group-item" v-on:click.prevent="modifyHeadModal"><i class="zi zi_camera"></i> 修改头像</a>
+                                <a href="#" class="list-group-item" v-on:click.precent="modifyPasswordModal"><i class="zi zi_pencilalt"></i> 修改密码</a>
                             </div>
                             <!-- 修改头像模态框 -->
                             <div class="modal fade" id="modifyHeadModal" ref="modifyHeadModal" tabindex="-1" role="dialog" aria-labelledby="modifyHeadModal" aria-hidden="true">
@@ -122,16 +122,16 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-10" id="userInfo">
+                        <div class="con-12 col-md-10" id="userInfo">
                             <form style="padding-left: 20px">
                                 <div class="form-group row">
-                                    <label for="nickname" class="col-1 col-form-label">昵称</label>
-                                    <div class="col-5">
+                                    <label for="nickname" class="col-3 col-md-1 col-form-label" style="padding-right:0">昵称</label>
+                                    <div class="col-9 col-md-5" style="padding-left:0">
                                         <input type="text" class="form-control" id="nickname" v-model="nickname" >
                                     </div>
                                 </div>
                                 <div class="form-group row">
-                                    <label class="col-1 col-form-label">性别</label>
+                                    <label class="col-3 col-md-1 col-form-label" style="padding-right:0">性别</label>
                                     <div class="form-check form-check-inline">
                                         <input class="form-check-input" type="radio" v-model="sex" name="sex" id="male"  value="male" >
                                         <label class="form-check-label" for="male">男</label>
@@ -146,20 +146,20 @@
                                     </div>
                                 </div>
                                 <div class="form-group row">
-                                    <label for="email" class="col-1 col-form-label">邮箱</label>
-                                    <div class="col-5">
+                                    <label for="email" class="col-3 col-md-1 col-form-label" style="padding-right:0">邮箱</label>
+                                    <div class="col-9 col-md-5" style="padding-left:0">
                                         <input type="text" class="form-control" id="email" v-model="email">
                                     </div>
                                 </div>
                                 <div class="form-group row">
-                                    <label for="mobile" class="col-1 col-form-label">手机</label>
-                                    <div class="col-5">
+                                    <label for="mobile" class="col-3 col-md-1 col-form-label" style="padding-right:0">手机</label>
+                                    <div class="col-9 col-md-5" style="padding-left:0">
                                         <input type="text" class="form-control" id="mobile" v-model="mobile">
                                     </div>
                                 </div>
                                 <div class="form-group row">
-                                    <label for="birthday" class="col-1 col-form-label">生日</label>
-                                    <div class="col-5">
+                                    <label for="birthday" class="col-3 col-md-1 col-form-label" style="padding-right:0">生日</label>
+                                    <div class="col-9 col-md-5" style="padding-left:0">
                                         <div class="input-group date" ref="datetimepicker1" id="datetimepicker1">
                                             <input type='text' class="form-control" id="birthday" th:value="${birthday}">
                                             <div class="input-group-append">
@@ -171,8 +171,8 @@
                                     </div>
                                 </div>
                                 <div class="form-group row">
-                                    <label for="introduce" class="col-1 col-form-label">个人介绍</label>
-                                    <div class="col-5">
+                                    <label for="introduce" class="col-3 col-md-1 col-form-label" style="padding-right:0">个人介绍</label>
+                                    <div class="col-9 col-md-5" style="padding-left:0">
                                         <textarea class="form-control" id="introduce" v-model="introduce"></textarea>
                                     </div>
                                 </div>
