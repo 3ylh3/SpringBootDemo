@@ -252,6 +252,7 @@
     var list = new Vue({
         el: "#list",
         data: {
+            username: [[${username}]],
             seen: false,
             seen1: false,
             seen2: false,
@@ -388,7 +389,7 @@
                     this.oldPasswordFlag = true;
                 }
                 else{
-                    var param = {username: Cookies.get("username"),password: md5(this.oldPassword)};
+                    var param = {username: this.username,password: md5(this.oldPassword)};
                     var object = this;
                     axios.post("/SpringBootDemo/checkPassword", param, {timeout: 60000})
                         .then(function (response) {
@@ -454,7 +455,7 @@
                     var _this = this;
                     //发送ajax请求
                     //发送ajax请求
-                    var param = {username: Cookies.get("username"), password: pwd};
+                    var param = {username: this.username, password: pwd};
                     axios.post("/SpringBootDemo/modifyPassword", param, {timeout: 60000})
                         .then(function (response) {
                             if(response.data.message == "success"){

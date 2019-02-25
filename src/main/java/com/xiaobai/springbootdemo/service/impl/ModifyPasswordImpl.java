@@ -17,6 +17,7 @@ public class ModifyPasswordImpl implements ModifyPasswordService {
     public String modifyPassword(String username, String password, HttpSession session){
         logger.info("modifyPassword---------------------------------------------------");
         try {
+            logger.info("用户名：" + username);
             logger.info("原密码：" + session.getAttribute("password"));
             logger.info("新密码：" + password);
             logger.info("更新数据库...");

@@ -17,7 +17,7 @@
 <div class="container-fluid" style="padding-top: 56px">
     <button th:replace="public :: toTopButton"></button>
     <div class="row" style="padding-top: 20px">
-        <div class="col-8 col-md-9 col-lg-10" id="notes">
+        <div class="col-8 col-md-9" id="notes">
             <div class="list-group">
                 <a th:href="@{/SpringBootDemo/note(ID=${#httpSession.id},title=${note.title})}" class="list-group-item flex-column align-items-start" th:object="${note}" th:each="note : ${notes}">
                     <div class="d-flex w-100 justify-content-between">
@@ -50,7 +50,7 @@
                 </div>
             </div>
         </div>
-        <div class="col-4 col-md-3 col-lg-2" style="height: 350px">
+        <div class="col-4 col-md-3" style="height: 350px">
             <p style="color: #17a2b8">阅读排行</p>
             <div class="list-group list-group-flush">
                 <a th:href="@{/SpringBootDemo/note(ID=${#httpSession.id},title=${note.title})}" class="list-group-item flex-column align-items-start" th:object="${note}" th:each="note : ${popularNote}" style="color: gray">

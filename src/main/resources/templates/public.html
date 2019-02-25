@@ -78,11 +78,6 @@
                 $(this.$el).on("hide.bs.modal",function () {
                     window.location.reload();
                 });
-            },
-            toHomeAfterHide: function(){
-                $(this.$el).on("hide.bs.modal",function () {
-                    window.location.href = "/SpringBootDemo/home?ID=[[${#httpSession.id}]]";
-                });
             }
         }
     });

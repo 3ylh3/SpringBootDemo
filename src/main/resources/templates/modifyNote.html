@@ -437,7 +437,9 @@
                     axios.post("/SpringBootDemo/modifyNote", param, {timeout: 60000})
                         .then(function (response) {
                             if(response.data.message == "success"){
-                                messageModal.toHomeAfterHide();
+                                $("#messageModal").on("hide.bs.modal",function () {
+                                    window.location.href = "/SpringBootDemo/home?ID=" + [[${#httpSession.id}]];
+                                });
                                 messageModal.show("保存成功！");
                             }
                             else{
