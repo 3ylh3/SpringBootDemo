@@ -27,7 +27,7 @@ spring:
     encoding: UTF-8
     cache: false
   resources:
-    static-locations: classpath:/META-INF/resources/,classpath:/resources/,classpath:/static/,classpath:/public/,file:/root/apps/static/icon/,classpath:/static/icon/
+    static-locations: classpath:/META-INF/resources/,classpath:/resources/,classpath:/static/,classpath:/public/,file:/root/apps/note/static/icon/,classpath:/static/icon/
 #Mybatis配置
 mybatis:
   #dao接口所在的包
